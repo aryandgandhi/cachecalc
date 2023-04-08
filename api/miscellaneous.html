@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Direct Mapped Cache</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Direct Mapped Cache</h1>
+        <form id="cache-form">
+            <label for="sets">Sets:</label>
+            <input type="number" id="sets" name="sets" required>
+            <label for="byte_blocks">Byte Blocks:</label>
+            <input type="number" id="byte_blocks" name="byte_blocks" required>
+            <label for="hex_string">Hex String List (comma separated):</label>
+            <input type="text" id="hex_string" name="hex_string" required>
+            <button type="submit">Calculate</button>
+        </form>
+        <div id="results">
+        </div>
+    </div>
+    <script>
+        document.getElementById('cache-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    const response = await fetch('/calculate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    const results = await response.json();
+    displayResults(results);
+});
+
+function displayResults(results) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '';
+    results.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.classList.add('result');
+        resultElement.innerHTML = `
+            <p>Offset: ${result.offset}</p>
+            <p>Index: ${result.index}</p>
+            <p>Tag: ${result.tag}</p>
+        `;
+        resultsDiv.appendChild(resultElement);
+    });
+}
+    </script>
+</body>
+</html>
