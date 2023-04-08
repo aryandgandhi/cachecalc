@@ -5,7 +5,7 @@ from math import floor
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def home():
     return render_template('miscellaneous.html')
 
 @app.route('/calculate', methods=['POST'])
