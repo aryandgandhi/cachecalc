@@ -26,5 +26,3 @@ def calculate():
         results.append({'offset': offset, 'index': index, 'tag': hex(tag)})
 
     return jsonify(results)
-
-
