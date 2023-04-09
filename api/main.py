@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import math
 from math import floor
+import pandas as pd  # Import pandas library
 
 app = Flask(__name__)
 
@@ -26,4 +27,8 @@ def calculate():
 
         results.append({'offset': offset, 'index': index, 'tag': hex(tag)})
 
-    return jsonify(results)
+    # Create a pandas DataFrame from the results list
+    df = pd.DataFrame(results)
+
+    # Return the string representation of the DataFrame
+    return df.to_string(index=False)

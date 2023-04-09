@@ -23,35 +23,26 @@
     </div>
     <script>
         document.getElementById('cache-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    console.log(data);
-    const response = await fetch('/calculate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    const results = await response.json();
-    displayResults(results);
-});
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            console.log(data);
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const results = await response.text();  // Change this line to get the response text
+            displayResults(results);
+        });
 
-function displayResults(results) {
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = '';
-    results.forEach(result => {
-        const resultElement = document.createElement('div');
-        resultElement.classList.add('result');
-        resultElement.innerHTML = `
-            <p>Offset: ${result.offset}</p>
-            <p>Index: ${result.index}</p>
-            <p>Tag: ${result.tag}</p>
-        `;
-        resultsDiv.appendChild(resultElement);
-    });
-}
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';  // Clear the results div
+            resultsDiv.innerText = results;  // Set the innerText to the response text (DataFrame string)
+        }
     </script>
 </body>
 </html>
