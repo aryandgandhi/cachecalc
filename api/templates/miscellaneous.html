@@ -19,30 +19,48 @@
             <button type="submit">Calculate</button>
         </form>
         <div id="results">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Offset</th>
+                        <th>Index</th>
+                        <th>Tag</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                </tbody>
+            </table>
         </div>
     </div>
     <script>
         document.getElementById('cache-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            console.log(data);
-            const response = await fetch('/calculate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            const results = await response.text();  // Change this line to get the response text
-            displayResults(results);
-        });
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    const response = await fetch('/calculate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    const results = await response.json();
+    displayResults(results);
+});
 
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';  // Clear the results div
-            resultsDiv.innerText = results;  // Set the innerText to the response text (DataFrame string)
-        }
+function displayResults(results) {
+    const resultsBody = document.getElementById('results-body');
+    resultsBody.innerHTML = '';
+    results.forEach(result => {
+        const resultElement = document.createElement('tr');
+        resultElement.innerHTML = `
+            <td>${result.offset}</td>
+            <td>${result.index}</td>
+            <td>${result.tag}</td>
+        `;
+        resultsBody.appendChild(resultElement);
+    });
+}
     </script>
 </body>
 </html>
