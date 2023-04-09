@@ -10,9 +10,10 @@ def home():
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
-    sets = int(request.form['sets'])
-    byte_blocks = int(request.form['byte_blocks'])
-    hex_string = request.form['hex_string'].split(',')
+    data = request.get_json()
+    sets = int(data['sets'])
+    byte_blocks = int(data['byte_blocks'])
+    hex_string = data['hex_string'].split(',')
 
     results = []
 
