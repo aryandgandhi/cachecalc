@@ -1,2 +1,2 @@
 Flask==2.2.3
-Pandas==1.4.4
+pandas==1.4.4
