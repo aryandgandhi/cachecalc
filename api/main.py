@@ -28,7 +28,6 @@ def calculate():
         results.append({'offset': offset, 'index': index, 'tag': hex(tag)})
 
     # Create a pandas DataFrame from the results list
-    df = pd.DataFrame(results)
 
     # Return the string representation of the DataFrame
-    return df.to_string(index=False)
+    return jsonify(results)
